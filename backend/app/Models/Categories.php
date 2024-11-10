@@ -13,4 +13,16 @@ class Categories extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function books(){
+        return $this->hasMany(Books::class, 'categories_id', 'id');
+    }
+
+    protected static function booted(){ 
+        self::deleting(function(Categories $categories) {
+            $categories->books()->each(function ($books) {
+                $books->delete();
+            });
+        });
+    }
 }

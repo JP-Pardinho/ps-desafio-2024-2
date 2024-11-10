@@ -22,10 +22,11 @@ class StoreBooksRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required, min:3, max:100'],
-            'author' => ['required, min:3, max:100'],
-            'price' => ['required, float'],
-            'imagem' => ['required', 'file'],
+            'title' => ['required', 'min:3', 'max:100'],
+            'author' => ['required', 'min:3', 'max:100'],
+            'price' => ['required', 'numeric'],
+            'amount' => ['required', 'integer'],
+            'image' => ['required', 'image'],
             'categories_id' => ['required'],
         ];
     }

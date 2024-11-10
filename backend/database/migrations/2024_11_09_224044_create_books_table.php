@@ -15,8 +15,9 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('title');
             $table->string('author');
-            $table->string('image');
             $table->float('price');
+            $table->integer('amount');
+            $table->string('image');
             $table->foreignUuid('categories_id')->constrained('categories');
             $table->timestamps();
 

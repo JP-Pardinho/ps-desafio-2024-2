@@ -35,8 +35,10 @@ class CategoriesController extends Controller
     {
         $data = $request->validated(); 
         $categories = $this->categories->create($data);
-        
-        return response()->json($categories, Response::HTTP_CREATED);
+        $id = $categories->id;
+        $categories_books = $this->categories->with('books')->findOrFail($id);
+
+        return response()->json($categories_books, Response::HTTP_CREATED);
     }
 
     /**
@@ -44,7 +46,7 @@ class CategoriesController extends Controller
      */
     public function show($id): JsonResponse
     {
-        $categories = $this->categories->FindOrFail($id);
+        $categories = $this->categories->with('books')->FindOrFail($id);
 
         return response()->json($categories, Response::HTTP_OK);
     }
@@ -54,8 +56,8 @@ class CategoriesController extends Controller
      */
     public function update(UpdateCategoriesRequest $request, $id): JsonResponse
     {
-        dd($request);
-        $categories = $this->categories->FindOrFail($id);
+        $data = $request->validated();
+        $categories = $this->categories->with('books')->FindOrFail($id);
         $categories->update($data);
         
         return response()->json($categories, Response::HTTP_OK);

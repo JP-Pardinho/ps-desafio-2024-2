@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Books;
 use App\Models\Categories;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -22,6 +23,9 @@ class DatabaseSeeder extends Seeder
         ]);
         $user->assignPermission('admin');
 
+
         Categories::factory(5)->create();
+        Books::factory(5)->create();
+        
     }
 }
