@@ -19,7 +19,7 @@ class BooksFactory extends Factory
     {
         return [
             'title' => $this->faker->name(),
-            'author' => $this->faker->lastName(),
+            'description' => $this->faker->lastName(),
             'price' => $this->faker->randomNumber(),
             'amount' => $this->faker->numberBetween(),
             'image' => $this->faker->imageUrl(),

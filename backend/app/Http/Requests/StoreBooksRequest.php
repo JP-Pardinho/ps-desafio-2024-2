@@ -23,8 +23,8 @@ class StoreBooksRequest extends FormRequest
     {
         return [
             'title' => ['required', 'min:3', 'max:100'],
-            'author' => ['required', 'min:3', 'max:100'],
-            'price' => ['required', 'numeric'],
+            'description' => ['required', 'min:3', 'max:100'],
+            'price' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/'],
             'amount' => ['required', 'integer'],
             'image' => ['required', 'image'],
             'categories_id' => ['required'],

@@ -13,26 +13,42 @@ import { createBook } from '@/actions/book'
 import { filterFormData } from '@/services/filter-form-data'
 import { useEffect, useState } from 'react'
 import { useToast } from '@/components/use-toast'
-import { ResponseErrorType } from '@/services/api'
+import { api, ResponseErrorType } from '@/services/api'
+import { categoryType } from '@/types/category'
 
 interface DialogCreateBookProps {
   children: React.ReactNode
 }
 
 export function DialogCreateBook({ children }: DialogCreateBookProps) {
-  const [open, setOpen] = useState<boolean>()
-  const [error, setError] = useState<ResponseErrorType | null>(null)
+  const [open, setOpen] = useState(false)
+  const [error, setError] = useState(null)
+  const [categories, setCategories] = useState<categoryType[] | null>(null)
   const { toast } = useToast()
 
   useEffect(() => {
     if (!open) {
       setError(null)
+      return
     }
-  }, [open])
+
+    const requestData = async () => {
+      const { response } = await api<categoryType[]>('GET', '/categoies')
+      if (response) {
+        setCategories(response)
+      } else {
+        toast({
+          title: 'Categorias não encontradas',
+        })
+        setOpen(false)
+      }
+    }
+
+    requestData()
+  }, [open, toast])
 
   const submit = async (form: FormData) => {
     const newForm = await filterFormData(form)
-
     const { error } = await JSON.parse(await createBook(newForm))
 
     if (error) {
@@ -41,9 +57,7 @@ export function DialogCreateBook({ children }: DialogCreateBookProps) {
         title: 'Não foi possível criar o livro!',
       })
     } else {
-      toast({
-        title: 'Livro criado com sucesso!',
-      })
+      toast({ title: 'Livro criado com sucesso!',})
       setOpen(false)
     }
   }
@@ -60,7 +74,9 @@ export function DialogCreateBook({ children }: DialogCreateBookProps) {
           </DialogDescription>
         </DialogHeader>
         <form action={submit}>
-          <FormFieldsBook error={error} />
+          {categories && (
+            <FormFieldsBook error={error} categories={categories} />
+          )}
         </form>
       </DialogContent>
     </Dialog>

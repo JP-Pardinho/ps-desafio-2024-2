@@ -23,8 +23,8 @@ class UpdateBooksRequest extends FormRequest
     {
         return [
             'title' => ['sometimes', 'min:3', 'max:100'],
-            'author' => ['sometimes', 'min:3', 'max:100'],
-            'price' => ['sometimes', 'numeric'],
+            'description' => ['sometimes', 'min:3', 'max:100'],
+            'price' => ['sometimes', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/'],
             'amount' => ['sometimes', 'integer'],
             'image' => ['sometimes', 'image'],
             'categories_id' => ['sometimes'],

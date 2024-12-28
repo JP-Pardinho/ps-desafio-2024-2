@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/dashboard/table'
-
+import { api } from '@/services/api'
 import { categoryType } from '@/types/category'
 import { Button } from '@/components/button'
 import { LuInfo, LuPen, LuPlusCircle, LuTrash } from 'react-icons/lu'
@@ -18,7 +18,7 @@ import { DialogInformationCategory } from './dialog-information-category'
 import { DialogCreateCategory } from './dialog-create-category'
 
 export default async function ListCategory() {
-  const { response } = null // requisicao para api
+  const { response } = await api<categoryType[]>('GET', '/categories')
 
   if (!response) {
     return (

@@ -15,6 +15,7 @@ import { useEffect, useState } from 'react'
 import { useToast } from '@/components/use-toast'
 import { categoryType } from '@/types/category'
 import { ResponseErrorType, api } from '@/services/api'
+import { title } from 'process'
 
 interface DialogUpdateCategoryProps {
   id: string
@@ -32,7 +33,7 @@ export function DialogUpdateCategory({
 
   useEffect(() => {
     const requestData = async () => {
-      const { response } = null // requisicao para api
+      const { response } = await api<categoryType>('GET', `/categories/${id}`)
 
       if (response) {
         setCategory(response)

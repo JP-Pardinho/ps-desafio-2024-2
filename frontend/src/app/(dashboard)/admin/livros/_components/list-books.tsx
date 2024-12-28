@@ -17,9 +17,11 @@ import { DialogUpdateBook } from './dialog-update-book'
 import { DialogBookDelete } from './dialog-delete-book'
 import { DialogInformationBook } from './dialog-information-book'
 import { DialogCreateBook } from './dialog-create-book'
+import { categoryType } from '@/types/category'
 
 export default async function ListBooks() {
-  const { response } = null // requisicao para api
+  const { response } = await api<bookType[]>('GET', `/books`)
+  const resposta = await api<categoryType[]>('GET', '/categories')
 
   if (!response) {
     return (
@@ -28,6 +30,8 @@ export default async function ListBooks() {
       </DashboardContainer>
     )
   }
+
+  const categories: categoryType[] | undefined = resposta.response
 
   const books: bookType[] = response
 
@@ -58,9 +62,9 @@ export default async function ListBooks() {
                 <TableCell>
                   <TabbleCellImage src={book.image} />
                 </TableCell>
-                <TableCell>{book.title}</TableCell>
-                <TableCell>{book.amount}</TableCell>
-                <TableCell>{book.category.name}</TableCell>
+                <TableCell className="pr-20">{book.title}</TableCell>
+                <TableCell className="pr-20">{book.amount}</TableCell>
+                <TableCell className="pr-20">{book.categories.name}</TableCell>
                 <TableCell className="flex justify-end gap-2">
                   <DialogInformationBook id={book.id}>
                     <Button variant="default-inverse" size="icon">
